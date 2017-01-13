@@ -211,34 +211,40 @@ function generatePrice(){
         if(time > 10) carPricePerDay *= 0.50;
         else if(time > 4) carPricePerDay *= 0.70;
         else if(time > 1) carPricePerDay *= 0.90;
-        
+        console.log(("  carPricePerDay : ").concat(carPricePerDay));
+        console.log(("  carPricePerKm : ").concat(carPricePerKm));
         
         //// TIME COMPONENT
         var timeComponent = time * carPricePerDay;
         console.log(("  time component : ").concat(timeComponent));
 
-        
-        
-        console.log(("  carPricePerDay : ").concat(carPricePerDay));
-        console.log(("  carPricePerKm : ").concat(carPricePerKm));
 
-        
         //// DISTANCE COMPONENT
         
         var distance = entry.distance;
         var distanceComponent = distance * carPricePerKm;
         console.log(("  distance : ").concat(distance));
         console.log(("  distance component : ").concat(distanceComponent));
-        
-        
+            
         var price = distanceComponent + timeComponent;
-        
-        
-        
         
         
         entry.price = price;
         console.log(("  price : ").concat(entry.price));
+        
+        
+        //// COMMISSION
+        entry.commission.insurance = price * 0.25;
+        entry.commission.assistance = time;
+        entry.commission.drivy = price*0.5 - entry.commission.insurance - entry.commission.assistance;
+        console.log(("  Commissions : "));
+        console.log(("      insurance : ").concat(entry.commission.insurance));
+        console.log(("      assistance : ").concat(entry.commission.assistance));
+        console.log(("      drivy : ").concat(entry.commission.drivy));
+        console.log(("      TOTAL : ").concat(entry.commission.insurance + entry.commission.assistance+ entry.commission.drivy));
+        
+        
+        
     }
     
     
