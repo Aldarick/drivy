@@ -22,6 +22,8 @@ var cars = [{
 //The `price` is updated from exercice 1
 //The `commission` is updated from exercice 3
 //The `options` is useful from exercice 4
+
+
 var rentals = [{
   'id': '1-pb-92',
   'driver': {
@@ -35,7 +37,10 @@ var rentals = [{
   'options': {
     'deductibleReduction': false
   },
+
   'price': 0,
+    
+    
   'commission': {
     'insurance': 0,
     'assistance': 0,
@@ -80,6 +85,7 @@ var rentals = [{
     'drivy': 0
   }
 }];
+
 
 //list of actors for payment
 //useful from exercise 5
@@ -169,3 +175,78 @@ console.log(cars);
 console.log(rentals);
 console.log(actors);
 console.log(rentalModifications);
+
+
+function generatePrice(){
+    
+    rentals.forEach(calculate);
+
+    function calculate(entry) {
+        
+        console.log(("--- ID : ").concat(entry.id));
+        
+        //// GET THE CAR
+        var carId = entry.carId;
+        var carPricePerDay = 100000000000;
+        var carPricePerKm = 100000000000;
+        
+        cars.forEach(function(value){
+            if(value.id == carId){
+                carPricePerDay = value.pricePerDay;
+                carPricePerKm = value.pricePerKm;
+            }
+        })
+        
+        console.log(("  carPricePerDay : ").concat(carPricePerDay));
+        console.log(("  carPricePerKm : ").concat(carPricePerKm));
+
+        //// TIME 
+        var time = stringToDate(entry.returnDate, "yyyy-mm-dd","-") - stringToDate(entry.pickupDate, "yyyy-mm-dd","-");
+        // convert ms to days
+        time = time / 1000 / 60 / 60 / 24;
+        time++;
+        console.log(("  time : ").concat(time));
+        
+        
+        //// TIME COMPONENT
+        
+        var timeComponent = time * carPricePerDay;
+        console.log(("  time component : ").concat(timeComponent));
+        //// DISTANCE COMPONENT
+        
+        var distance = entry.distance;
+        var distanceComponent = distance * carPricePerKm;
+        console.log(("  distance : ").concat(distance));
+        console.log(("  distance component : ").concat(distanceComponent));
+        
+        
+        
+        
+        entry.price = distanceComponent + timeComponent;
+        console.log(("  price : ").concat(entry.price));
+    }
+    
+    
+
+    
+}
+
+	
+
+function stringToDate(_date,_format,_delimiter)
+{
+            var formatLowerCase=_format.toLowerCase();
+            var formatItems=formatLowerCase.split(_delimiter);
+            var dateItems=_date.split(_delimiter);
+            var monthIndex=formatItems.indexOf("mm");
+            var dayIndex=formatItems.indexOf("dd");
+            var yearIndex=formatItems.indexOf("yyyy");
+            var month=parseInt(dateItems[monthIndex]);
+            month-=1;
+            var formatedDate = new Date(dateItems[yearIndex],month,dateItems[dayIndex]);
+            return formatedDate;
+}
+
+console.log("Rentals :");
+generatePrice();
+console.log(rentals);
