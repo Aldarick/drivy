@@ -241,12 +241,33 @@ function generatePrice(){
         //// COMMISSION (exercice 3)
         entry.commission.insurance = price * 0.15;
         entry.commission.assistance = time;
-        entry.commission.drivy = price * 0.3 - entry.commission.insurance - entry.commission.assistance + deductiblePrice;
+        entry.commission.drivy = price * 0.3 - entry.commission.insurance - entry.commission.assistance;
+        var totalComission = entry.commission.drivy + entry.commission.assistance + entry.commission.insurance;
+        
         console.log(("  Commissions : "));
         console.log(("      insurance : ").concat(entry.commission.insurance));
         console.log(("      assistance : ").concat(entry.commission.assistance));
         console.log(("      drivy : ").concat(entry.commission.drivy));
-        console.log(("      TOTAL : ").concat(entry.commission.insurance + entry.commission.assistance+ entry.commission.drivy));
+        console.log(("      TOTAL : ").concat(entry.commission.insurance + entry.commission.assistance + entry.commission.drivy));
+        
+        //// PAYMENT
+        actors.forEach(function(value){
+            if(value.rentalId === entry.id){
+                var rentalPrice = entry.price - deductiblePrice;
+                value.payment["0"].amount = rentalPrice + deductiblePrice; // driver
+                value.payment["1"].amount = rentalPrice - totalComission; // owner
+                value.payment["2"].amount = entry.commission.insurance; // insurance
+                value.payment["3"].amount = entry.commission.assistance; // assistance
+                value.payment["4"].amount = entry.commission.drivy + deductiblePrice; // drivy
+                 
+                console.log(("  Payments : "));
+                console.log(("      driver : ").concat(value.payment["0"].type).concat(" of ").concat(value.payment["0"].amount));
+                console.log(("      owner : ").concat(value.payment["1"].type).concat(" of ").concat(value.payment["1"].amount));
+                console.log(("      insurance : ").concat(value.payment["2"].type).concat(" of ").concat(value.payment["2"].amount));
+                console.log(("      assistance : ").concat(value.payment["3"].type).concat(" of ").concat(value.payment["3"].amount));
+                console.log(("      drivy : ").concat(value.payment["4"].type).concat(" of ").concat(value.payment["4"].amount));               
+            }
+        })
         
         
         
