@@ -232,16 +232,16 @@ function generatePrice(){
         
         //// DEDUCTIBLE (exercice 4)
         var deductible = entry.options.deductibleReduction;
-        var deductiblePrice = price;
-        if (deductible) deductiblePrice = price + 4;
+        var deductiblePrice = 0;
+        if (deductible) deductiblePrice = 4 * time;
         
-        entry.price = deductiblePrice;
-        console.log(("  price with deductible reduction : ").concat(deductiblePrice));
+        entry.price = price + deductiblePrice;
+        console.log(("  price with deductible reduction : ").concat(price + deductiblePrice));
         
         //// COMMISSION (exercice 3)
         entry.commission.insurance = price * 0.15;
         entry.commission.assistance = time;
-        entry.commission.drivy = price *0.3 - entry.commission.insurance - entry.commission.assistance + 4;
+        entry.commission.drivy = price * 0.3 - entry.commission.insurance - entry.commission.assistance + deductiblePrice;
         console.log(("  Commissions : "));
         console.log(("      insurance : ").concat(entry.commission.insurance));
         console.log(("      assistance : ").concat(entry.commission.assistance));
