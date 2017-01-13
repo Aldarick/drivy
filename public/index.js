@@ -207,7 +207,7 @@ function generatePrice(){
         time++;
         console.log(("  time : ").concat(time));
         
-        // exercice 2 : decreasing
+        // PRICE DECREASING (exercice 2)
         if(time > 10) carPricePerDay *= 0.50;
         else if(time > 4) carPricePerDay *= 0.70;
         else if(time > 1) carPricePerDay *= 0.90;
@@ -227,16 +227,21 @@ function generatePrice(){
         console.log(("  distance component : ").concat(distanceComponent));
             
         var price = distanceComponent + timeComponent;
+        console.log(("  price without deductible reduction : ").concat(price));
         
         
-        entry.price = price;
-        console.log(("  price : ").concat(entry.price));
+        //// DEDUCTIBLE (exercice 4)
+        var deductible = entry.options.deductibleReduction;
+        var deductiblePrice = price;
+        if (deductible) deductiblePrice = price + 4;
         
+        entry.price = deductiblePrice;
+        console.log(("  price with deductible reduction : ").concat(deductiblePrice));
         
-        //// COMMISSION
-        entry.commission.insurance = price * 0.25;
+        //// COMMISSION (exercice 3)
+        entry.commission.insurance = price * 0.15;
         entry.commission.assistance = time;
-        entry.commission.drivy = price*0.5 - entry.commission.insurance - entry.commission.assistance;
+        entry.commission.drivy = price *0.3 - entry.commission.insurance - entry.commission.assistance + 4;
         console.log(("  Commissions : "));
         console.log(("      insurance : ").concat(entry.commission.insurance));
         console.log(("      assistance : ").concat(entry.commission.assistance));
