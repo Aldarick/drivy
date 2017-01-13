@@ -177,6 +177,8 @@ console.log(actors);
 console.log(rentalModifications);
 
 
+
+
 function generatePrice(){
     
     rentals.forEach(calculate);
@@ -197,9 +199,7 @@ function generatePrice(){
             }
         })
         
-        console.log(("  carPricePerDay : ").concat(carPricePerDay));
-        console.log(("  carPricePerKm : ").concat(carPricePerKm));
-
+        
         //// TIME 
         var time = stringToDate(entry.returnDate, "yyyy-mm-dd","-") - stringToDate(entry.pickupDate, "yyyy-mm-dd","-");
         // convert ms to days
@@ -207,11 +207,22 @@ function generatePrice(){
         time++;
         console.log(("  time : ").concat(time));
         
+        // exercice 2 : decreasing
+        if(time > 10) carPricePerDay *= 0.50;
+        else if(time > 4) carPricePerDay *= 0.70;
+        else if(time > 1) carPricePerDay *= 0.90;
+        
         
         //// TIME COMPONENT
-        
         var timeComponent = time * carPricePerDay;
         console.log(("  time component : ").concat(timeComponent));
+
+        
+        
+        console.log(("  carPricePerDay : ").concat(carPricePerDay));
+        console.log(("  carPricePerKm : ").concat(carPricePerKm));
+
+        
         //// DISTANCE COMPONENT
         
         var distance = entry.distance;
@@ -220,9 +231,13 @@ function generatePrice(){
         console.log(("  distance component : ").concat(distanceComponent));
         
         
+        var price = distanceComponent + timeComponent;
         
         
-        entry.price = distanceComponent + timeComponent;
+        
+        
+        
+        entry.price = price;
         console.log(("  price : ").concat(entry.price));
     }
     
